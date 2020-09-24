@@ -11,7 +11,7 @@
 
 #if defined(ESP32)
 
-#include "LittleFS.h"
+#include "FS.h"
 #include "WiFi.h"
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>

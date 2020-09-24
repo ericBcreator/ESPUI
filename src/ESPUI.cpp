@@ -25,7 +25,7 @@ void listDir(const char *dirname, uint8_t levels)
     Serial.printf("Listing directory: %s\n", dirname);
   }
 
-  File root = LittleFS.open(dirname);
+  File root = SPIFFS.open(dirname);
 
   if (!root)
   {
@@ -110,8 +110,8 @@ void ESPUIClass::list()
   listDir("/", 1);
 #if defined(ESP32)
 
-  Serial.println(LittleFS.totalBytes());
-  Serial.println(LittleFS.usedBytes());
+  Serial.println(SPIFFS.totalBytes());
+  Serial.println(SPIFFS.usedBytes());
 
 #else
   FSInfo fs_info;
@@ -230,9 +230,9 @@ void ESPUIClass::prepareFileSystem()
   }
 
 #if defined(ESP32)
-  LittleFS.format();
+  SPIFFS.format();
 
-  if (!LittleFS.begin(true))
+  if (!SPIFFS.begin(true))
   {
     if (this->verbosity)
     {
@@ -302,7 +302,11 @@ void ESPUIClass::prepareFileSystem()
 
 #endif
 
+#if defined(ESP32)
+  SPIFFS.end();
+#else
   LittleFS.end();
+#endif
 }
 
 // Handle Websockets Communication
